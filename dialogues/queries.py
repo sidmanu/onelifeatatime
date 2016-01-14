@@ -3,6 +3,12 @@ from dialogues.models import *
 def get_total_count():
     return Dialogue.objects.count()
 
+def get_all_dialogues():
+	return Dialogue.objects.all()
+
+
+def get_dialogues_in_date_range(start_date, end_date):
+	return Dialogue.objects.filter(dialogue_date__range=[start_date, end_date])
 
 def get_all_zones():
 	return Zone.objects.all()

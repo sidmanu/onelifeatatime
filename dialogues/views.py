@@ -29,7 +29,7 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/leaders_dashboard/')
+                return HttpResponseRedirect('/dialogues/leaders_dashboard/')
     return render(request, 'dialogues/login.html', context)
 
 @login_required
@@ -74,3 +74,72 @@ def submit_new_dialogue(request):
 		dlg.save()
 	
 	return render(request, 'dialogues/index.html', context)
+
+
+def export_dialogue_list_xls(request, dialogue_list):
+    import xlwt
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=dialogue_list.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("All dialogues")
+    
+    row_num = 0
+    
+    columns = [
+        (u"Member Name", 8000),
+        (u"Member Email", 8000),
+        (u"Friend Name", 8000),
+        (u"Zone", 6000),
+        (u"Region", 6000),
+        (u"Chapter", 6000),
+        (u"District", 6000),
+        (u"Date", 6000),
+    ]
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        # set column width
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    font_style.alignment.wrap = 1
+    for d in dialogue_list:
+        row_num += 1
+        row = [
+            d.member_name,
+            d.member_email,
+            d.friend_name,
+            d.district.parent.parent.parent.name,
+            d.district.parent.parent.name,
+            d.district.parent.name,
+            d.district.name,
+			d.dialogue_date
+        ]
+        for col_num in xrange(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+            
+    wb.save(response)
+    return response
+
+
+
+def export_entire_dialogue_list_xls(request):
+
+	all_dialogues = q.get_all_dialogues()
+	return export_dialogue_list_xls(request, all_dialogues)
+   
+
+def export_dialogue_list_date_range_xls(request):
+	
+	start_date = request.GET.get('start_date','01/11/2015 8:01 PM')
+	start_date = datetime.datetime.strptime(start_date, '%m/%d/%Y %I:%M %p').strftime('%Y-%m-%d')
+
+	end_date = request.GET.get('end_date','01/11/2015 8:08 PM')
+	end_date = datetime.datetime.strptime(end_date, '%m/%d/%Y %I:%M %p').strftime('%Y-%m-%d')
+	dialogues = q.get_dialogues_in_date_range(start_date, end_date) 
+
+	return export_dialogue_list_xls(request, dialogues)
+

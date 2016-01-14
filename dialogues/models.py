@@ -30,7 +30,7 @@ class District(models.Model):
 class Dialogue(models.Model):
 	member_name = models.CharField(max_length=60)
 	friend_name = models.CharField(max_length=60)
-	member_email = models.CharField(max_length=60, unique=True)
+	member_email = models.CharField(max_length=60)
 	district = models.ForeignKey(District)
 	dialogue_date = models.DateField()
 
