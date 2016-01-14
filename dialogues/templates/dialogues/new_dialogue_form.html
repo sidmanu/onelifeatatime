@@ -1,0 +1,138 @@
+  <div class="container" style="margin-top:5px">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h4>Record a new Dialogue!</h4>
+                    <hr class="star-primary">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <form name="newDialogue" id="newDialogueForm" novalidate="" method="POST" action="/dialogues/submit_new_dialogue/" >
+					{% csrf_token %}
+					<div class="row control-group">
+                            <div class="form-group col-xs-6 floating-label-form-group controls">
+                                <label>Choose Zone</label>
+									<select class="form-control" id="zone_select" placeholder="Zone (GA)" data-validation-required-message="Choose Zone">
+										<option value='0'> -Choose Zone- </option>
+										{% for zone in zone_list %}
+												<option value='{{zone.id}}'> {{zone.name}} </option>
+										{%endfor %}
+									</select>
+                                <p class="help-block text-danger"></p>
+                            </div>
+						  	<div class="form-group col-xs-6 floating-label-form-group controls">
+                                <label>Choose Region</label>
+									<select class="form-control" disabled id="region_select" placeholder="Region (Area)" data-validation-required-message="Choose Region">
+										{% for region in region_list %}
+												<option value='{{region.id}}'> {{region.region_name}} </option>
+										{%endfor %}
+
+									</select>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+						<div class="row control-group">
+                            <div class="form-group col-xs-6 floating-label-form-group controls">
+                                <label>Choose Chapter</label>
+									<select class="form-control" disabled id="chapter_select" placeholder="Chapter" data-validation-required-message="Choose Chapter">
+										{% for chapter in chapter_list %}
+												<option value='{{chapter.id}}'> {{chapter.chapter_name}} </option>
+										{%endfor %}
+									</select>
+                                <p class="help-block text-danger"></p>
+                            </div>
+						  	<div class="form-group col-xs-6 floating-label-form-group controls">
+                                <label>Choose District</label>
+									<select class="form-control" disabled id="district_select" name="district_select" placeholder="District" data-validation-required-message="Choose District">
+										{% for district in chapter_list %}
+												<option value='{{chapter.id}}'> {{chapter.chapter_name}} </option>
+										{%endfor %}
+									</select>
+                                <p class="help-block text-danger"></p>
+                            </div>
+
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-6 floating-label-form-group controls">
+                                <label>Member Name</label>
+                                <input type="text" class="form-control" placeholder="Member Name" name="member_name" id="member_name" required="" data-validation-required-message="Enter member name.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+							<div class="form-group col-xs-6 floating-label-form-group controls">
+                                <label>Friend Name</label>
+                                <input type="text" class="form-control" placeholder="Friend's Name" name="friend_name" id="friend_name" required="" data-validation-required-message="Enter Friend's name.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Email Address</label>
+                                <input type="email" class="form-control" placeholder="Email Address" name="member_email" id="member_email" required="" data-validation-required-message="Please enter member's email address.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+	
+                        <div id="success"></div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-4 ">
+							</div>
+                            <div class="form-group col-xs-4 ">
+                                <button type="submit" class="btn btn-success btn-lg">Record dialogue!</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+<script src="static/dialogues/js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(function(){
+  $("select#zone_select").change(function(){
+	var selected_val = $(this).val(); 
+	//alert(selected_val);
+	$.ajax({
+	  url: "dialogues/ajax_get_regions_in_zone/"+selected_val+"/",
+	  beforeSend: function( xhr ) {
+		xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+	  }
+	})
+	  .done(function( data ) {
+      	$("select#region_select").html(data);
+      	$("select#region_select").prop('disabled',false);
+	  });
+    })
+  $("select#region_select").change(function(){
+	var selected_val = $(this).val(); 
+	//alert(selected_val);
+	$.ajax({
+	  url: "dialogues/ajax_get_chapters_in_region/"+selected_val+"/",
+	  beforeSend: function( xhr ) {
+		xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+	  }
+	})
+	  .done(function( data ) {
+      	$("select#chapter_select").html(data);
+      	$("select#chapter_select").prop('disabled',false);
+	  });
+    })
+  $("select#chapter_select").change(function(){
+	var selected_val = $(this).val(); 
+	//alert(selected_val);
+	$.ajax({
+	  url: "dialogues/ajax_get_districts_in_chapter/"+selected_val+"/",
+	  beforeSend: function( xhr ) {
+		xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+	  }
+	})
+	  .done(function( data ) {
+      	$("select#district_select").html(data);
+      	$("select#district_select").prop('disabled',false);
+	  });
+    })
+
+})
+</script>
+
+

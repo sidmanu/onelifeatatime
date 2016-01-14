@@ -1,0 +1,67 @@
+{% extends 'dialogues/base.html'%}
+{% load staticfiles %}
+
+{% block title %} Home - Dialogues for Peace! {% endblock %}
+
+{% block maincontent %}
+
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                   	<div class="intro-text"> <span class="name btn-lg" style="color:black"> {{total_count}}</span></div> 
+                    <div class="intro-text">
+                        <span class="name">Dialogues for Peace</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+  <!-- Record Dialogue Section -->
+    <section id="contact">
+	{% include 'dialogues/new_dialogue_form.html' %}
+
+     </section>
+
+
+    <!-- Chart Grid Section -->
+    <section id="charts">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+					{% include 'dialogues/chart_linecurve.html' %}
+				</div>
+			</div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="success" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>2016 - The Year of Expansion</h2>
+                    <hr class="star-light">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <p>Dialogue is an adventure, an adventure available to anyone. And sometimes it’s an adventure whose outcome can change history.</p>
+                </div>
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <a href="http://www.ikedaquotes.org/dialogue/" class="btn btn-lg btn-outline">
+                        <i class="fa fa-light"></i> Quotes about Dialogue 
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+
+
+{% endblock %}
+~
