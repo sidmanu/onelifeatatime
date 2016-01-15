@@ -5,30 +5,39 @@
 
 {% block maincontent %}
 
+<br/>
+<br/>
+<br/>
+<br/>
+
+
 <section>
 <div class="container">
-	<div class="row">
-		<h4> Please enter your email address, used on this website. You'll be sent an email with a summary of your dialogues so far. </h4>
+		<div class="row">
 		<div class="col-lg-12">
-		<div id="email_form">
-			<form class="form-horizontal" name="LoginForm" action="/dialogues/my_dialogues/" method="post">
-			{% csrf_token %}
-			<div class="form-control control-group">
-				<label class="control-label" for="email">Email address</label>
-				<div class="controls">
-					<input type="text" id="email" name="email"  placeholder="My Email">
-				</div>
-			</div>
-			<div class="control-group form-control">
-				<div class="controls">
-					<button type="submit" class="form-control" class="btn btn-success">Go!</button>
-				</div>
-			</div>
-			</form>
-		</div>
-		</div>
+			<div id="email_form">
+				<form class="form-horizontal" name="LoginForm" action="/dialogues/my_dialogues/" method="post">
+				{% csrf_token %}
+					<div class="row control-group">
+						<div class="form-group col-xs-6 floating-label-form-group controls">
+							<label>Email</label>
+							<input type="email" class="form-control" placeholder="Email" name="email" id="email" required="" data-validation-required-message="Enter member email.">
+									<p class="help-block text-danger"></p>
+						</div>	
+						<div class="form-group col-xs-6 floating-label-form-group controls">
+							<button type="submit" class="btn btn-success btn-lg" style="margin-top:10px">Go!</button>
+						</div>
+					</div> <!-- row control group-->
 
+				</form>
+			</div>
+		</div> <!-- col-->
 	</div> <!-- row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<p> Please enter your email address, used on this website. You'll be sent an email with a summary of your dialogues so far. </p>
+		</div>
+	</div>
 
 </div> <!-- container -->
 
