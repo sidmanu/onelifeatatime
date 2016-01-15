@@ -17,6 +17,13 @@ def index(request):
 	context['zone_list'] = q.get_all_zones()
 	return render(request, 'dialogues/index.html', context)
 
+def logout_user(request):
+	context = {}
+	context['global_message'] = "You've been logged out."
+	logout(request)
+	return HttpResponseRedirect('/')
+
+
 def login_user(request):
     context = {}
     logout(request)
@@ -73,7 +80,7 @@ def submit_new_dialogue(request):
 			
 		dlg.save()
 	
-	return render(request, 'dialogues/index.html', context)
+	return HttpResponseRedirect('/')
 
 
 def export_dialogue_list_xls(request, dialogue_list):
@@ -116,7 +123,7 @@ def export_dialogue_list_xls(request, dialogue_list):
             d.district.parent.parent.name,
             d.district.parent.name,
             d.district.name,
-			d.dialogue_date
+			str(d.dialogue_date)
         ]
         for col_num in xrange(len(row)):
             ws.write(row_num, col_num, row[col_num], font_style)

@@ -55,12 +55,12 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden active">
-                        <a href="http://ironsummitmedia.github.io/startbootstrap-freelancer/#page-top"></a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="/login/">Login</a>
-                    </li>
+					{% if user.is_authenticated %}
+					<li> Welcome {{user}} </li>
+					<li><a href="/logout/">Sign Out</a></li>
+					{% else %}
+					<li><a href="/login/">Log in</a></li>
+					{% endif %}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -68,6 +68,8 @@
         <!-- /.container-fluid -->
     </nav>
 
+
+	<div class="text-center" style="color:red" > {{global_msg}} </div>
 	{% block maincontent %}	
 
 	should be overridden
