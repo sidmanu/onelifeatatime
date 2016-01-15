@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 
-
 import datetime
+from django.core.mail import send_mail
 
 def index(request):
 	context = {}
@@ -23,6 +23,38 @@ def logout_user(request):
 	logout(request)
 	return HttpResponseRedirect('/')
 
+def send_my_dialogues_email(email_id, dialogues):
+	recipients = [email_id]
+	subject = 'My Dialogue History - onelifeatatime.in'
+	sender = 'noreply@onelifeatatime.in'
+	content = """
+	Hi %s, 
+	Here is your dialogue history: """
+	
+	
+	if len(dialogues) == 0:
+		content += "You have no recorded dialogues!"
+
+	for d in dialogues:
+		line = "%s on %s"%(d.friend_name, str(d.dialogue_date))
+		content += line
+	
+	content += 'Thank You!!!'
+	try:
+			send_mail(subject, content, sender, recipients)
+	except:
+			pass
+
+
+def my_dialogues(request):
+	context = {}
+	if request.POST:
+		email = request.POST['email']
+		dialogues = q.get_dialogues_list_by_email(email)
+		send_my_dialogues_email(email, dialogues)
+		context['display_message'] = 'If email is valid, you\'ll receive an email shortly'
+
+	return render(request, 'dialogues/my_dialogues.html', context)
 
 def login_user(request):
     context = {}

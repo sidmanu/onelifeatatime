@@ -27,3 +27,7 @@ def get_districts_in_chapter(id):
 
 def get_district_by_id(id):
 	return District.objects.get(id=id)
+
+
+def get_dialogues_list_by_email(email):
+	return Dialogue.objects.filter(member_email=email)
