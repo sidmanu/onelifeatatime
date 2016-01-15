@@ -8,7 +8,7 @@ The project is kept under /home/ubuntu/onelifeatatime.in folder.
 
 The contents of /etc/apache2/sites-enabled/onelifeatatime.in.conf is:
 
-$ cat /etc/apache2/sites-enabled/onelifeatatime.in.conf
+$ cat onelifeatatime.in.conf
 <VirtualHost *:80>
 
     ServerName www.onelifeatatime.in
@@ -22,6 +22,8 @@ $ cat /etc/apache2/sites-enabled/onelifeatatime.in.conf
 	<Directory /home/ubuntu/onelifeatatime.in/dialoguesforpeace/static/*>
 	    Require all granted
 	</Directory>
+	WSGIDaemonProcess onelifeatatime python-path=/home/ubuntu/onelifeatatime.in/dialoguesforpeace
+    	WSGIProcessGroup onelifeatatime
 
 	WSGIScriptAlias / /home/ubuntu/onelifeatatime.in/dialoguesforpeace/dialoguesforpeace/wsgi.py
 	<Directory /home/ubuntu/onelifeatatime.in/dialoguesforpeace>
