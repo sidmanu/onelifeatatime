@@ -40,10 +40,7 @@ def send_my_dialogues_email(email_id, dialogues):
 		content += line
 	
 	content += 'Thank You!!!'
-	try:
-			send_mail(subject, content, sender, recipients)
-	except:
-			pass
+	send_mail(subject, content, sender, recipients)
 
 
 def my_dialogues(request):
