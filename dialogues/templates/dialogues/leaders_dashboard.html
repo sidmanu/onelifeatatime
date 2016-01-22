@@ -5,98 +5,133 @@
 
 {% block maincontent %}
 
-<section>
-
-<h2> Leaders' Dashboard </h2>
-
 <div class="container">
-<div class="row">
-	<div class="col-md-12">
-	<div class="alert alert-info"><h4>Leader's Dashboard</h4></div>
-	<div class="tabs-x tabs-left tabs-krajee">
-            <ul id="myTab-3" class="nav nav-tabs" role="tablist">
-                <li class="active"><a href="#summary" role="tab" data-toggle="tab" aria-expanded="false"><i class="glyphicon glyphicon-home"></i> Summary</a></li>
-                <li class=""><a href="#trends" role="tab-kv" data-toggle="tab" aria-expanded="true"><i class="glyphicon glyphicon-user"></i>
-                    Trends</a></li>
-                <li class="dropdown">
-                    <a href="#" id="myTabDrop-3" class="dropdown-toggle" data-toggle="dropdown" title="Downloads"><i class="glyphicon glyphicon-list-alt"></i> Downloads <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop-1">
-                        <li><a href="#dialogue_list" tabindex="-1" role="tab" data-toggle="tab" title="Dialogue List">
-                            <i class="glyphicon glyphicon-chevron-right"></i> Dialogue List</a></li>
-                        <li><a href="#per_district_count" tabindex="-1" role="tab" data-toggle="tab" title="Per District Count">
-                            <i class="glyphicon glyphicon-chevron-right"></i> Per District Count</a></li>
-                    </ul>
-                </li>
-                <li class="disabled"><a href="#disabled-3"><i class="glyphicon glyphicon-knight"></i> Disabled</a></li>
-            </ul>
-            <div id="myTabContent-3" class="tab-content" style="min-height: 420px;">
-                <div class="tab-pane fade active in" id="summary">
-					<div class="row">
-						<div class="col-md-6">
-							Total Counter: {{total_count}}
-						</div>
-						<div class="col-md-6">
-							Some chart here
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info"><h4>Leader's Dashboard</h4></div>
+			<div class="tabs-x tabs-left tabs-krajee">
+				<ul id="myTab-3" class="nav nav-tabs" role="tablist">
+					<li class="active"><a href="#summary" role="tab" data-toggle="tab" aria-expanded="false"><i class="glyphicon glyphicon-home"></i> Summary</a></li>
+					<li class=""><a href="#trends" role="tab-kv" data-toggle="tab" aria-expanded="true"><i class="glyphicon glyphicon-user"></i>
+						Trends</a></li>
+					<li class="dropdown">
+					<a href="#" id="myTabDrop-3" class="dropdown-toggle" data-toggle="dropdown" title="Downloads"><i class="glyphicon glyphicon-list-alt"></i> Reports <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop-1">
+						<li><a href="#dialogue_list" tabindex="-1" role="tab" data-toggle="tab" title="Total Dialogue List">
+							<i class="glyphicon glyphicon-chevron-right"></i> Total Dialogue List</a></li>
+						<li><a href="#per_chapter_list" tabindex="-1" role="tab" data-toggle="tab" title="Chapter-wise List">
+							<i class="glyphicon glyphicon-chevron-right"></i> Chapter-wise List </a></li>
+					</ul>
+					</li>
+				</ul>
+				<div id="myTabContent-3" class="tab-content" style="min-height: 420px;">
+					<div class="tab-pane fade active in" id="summary">
+						<div class="row">
+							<div class="col-md-6 btn btn-danger">
+								Total Counter: {{total_count}}
+							</div>
+							<div class="col-md-6">
+								Some chart here
+							</div>
 						</div>
 					</div>
-                </div>
-                <div class="tab-pane fade " id="trends">
-					Discussion trends here
-                </div>
-                <div class="tab-pane fade" id="dialogue_list">
-                    <p></p><h4>Download >> All Dialogue List</h4>
-                   
-
-
-					<form method="get" action="/dialogues/download_dialogue_list_date_range/">
-
-					<div class="row control-group">
-                            <div class="form-group col-xs-4 controls">
-                                <label class="control-label">Start date</label>
-            					<input type='text' name='start_date' class="form-control" id='datetimepicker1' />
+					<div class="tab-pane fade "id="trends">
+						<div class="row">
+							<div class="col-md-6">
+								Discussion trends here
 							</div>
-                            <div class="form-group col-xs-4 controls">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="dialogue_list">
+						<p></p><h4>Reports >> All Dialogue List</h4>
 
-                                <label class="control-label">End date</label>
-            					<input type='text' name='end_date' class="form-control" id='datetimepicker2' />
-							</div>
+						<form method="get" action="/dialogues/download_dialogue_list_date_range/">
 
-                            <div class="form-group col-xs-4 controls">
-								<button type="submit" style="margin-top:25px" class="btn btn-success">Download for range</button>
-							</div>
+							<div class="row control-group">
+								<div class="form-group col-xs-4 controls">
+									<label class="control-label">Start date</label>
+									<input type='text' name='start_date' class="form-control" id='datetimepicker1' />
+								</div>
+								<div class="form-group col-xs-4 controls">
+
+									<label class="control-label">End date</label>
+									<input type='text' name='end_date' class="form-control" id='datetimepicker2' />
+								</div>
+
+								<div class="form-group col-xs-4 controls">
+									<button type="submit" style="margin-top:25px" class="btn btn-success">Download for range</button>
+								</div>
 
 								<script src="/static/dialogues/js/jquery.js"></script>
-        						<script type="text/javascript">
-            						$(function () {
-                						$('#datetimepicker1').datetimepicker();
-                						$('#datetimepicker2').datetimepicker();
-            						});
-        						</script>
-					</div> <!-- row -->
+								<script type="text/javascript">
+									$(function () {
+											$('#datetimepicker1').datetimepicker({
+												format: 'DD-MM-YYYY'
+											});
+											$('#datetimepicker2').datetimepicker({
+												format: 'DD-MM-YYYY'
+											});
+										});
+										</script>
+									</div> <!-- row -->
 
-					</form>
+								</form>
 
-					<a class="btn btn-success btn-lg" href="/dialogues/download_entire_dialogue_list/" download="dialogue_list.xls"> Download Entire List<a>
+								<a class="btn btn-success btn-lg" href="/dialogues/download_entire_dialogue_list/" download="dialogue_list.xls"> Download Entire List</a>
 
-					<p></p>
 
-					</div>
-                </div>
-                <div class="tab-pane fade" id="per_district_count">
-                    <p></p><h4>Downloads » Per District Count</h4>
+							</div>
+							<div class="tab-pane fade" id="per_chapter_list">
+								<p></p><h4>Reports » Chapter wise list</h4>
+								<form method="get" action="/dialogues/download_per_chapter_dialogue_list_date_range/">
 
-					Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
+									<div class="row control-group">
+										<div class="form-group col-xs-4 controls">
+											<label class="control-label">Select Chapter</label>
+											<select name='chapter_id' class="form-control" id='chapter_select' >
+												<option value='0'> -Select- </option>
+												{% for chapter in all_chapter_list %}
+												<option value='{{chapter.id}}'>{{chapter.name}} </option>
+												{% endfor %}
+											</select>
+										</div>
 
-					<button class="btn btn-lg"> Download XLS<button>
-					<p></p>
-                </div>
-                <div class="tab-pane fade" id="disabled-3">Disabled Content</div>
-            </div>
-</div>
-</div>
+										<div class="form-group col-xs-4 controls">
+											<label class="control-label">Start date</label>
+											<input type='text' name='start_date' class="form-control" id='datetimepicker3' />
+										</div>
+										<div class="form-group col-xs-4 controls">
 
-</div>
+											<label class="control-label">End date</label>
+											<input type='text' name='end_date' class="form-control" id='datetimepicker4' />
+										</div>
 
-</div>
-</section>
-{%endblock %}
+										<div class="form-group col-xs-4 controls">
+											<button type="submit" style="margin-top:25px" class="btn btn-success">Download for range</button>
+										</div>
+
+										<script src="/static/dialogues/js/jquery.js"></script>
+										<script type="text/javascript">
+											$(function () {
+													$('#datetimepicker3').datetimepicker({
+														format: 'DD-MM-YYYY'
+													});
+													$('#datetimepicker4').datetimepicker({
+														format: 'DD-MM-YYYY'
+													});
+												});
+												</script>
+											</div> <!-- row -->
+
+										</form>
+
+									</div> <!---pane-->
+								</div> <!-- tab-content-->
+							</div> <!-- col-->
+						</div> <!-- row-->
+
+
+					</div> <!-- container-->
+
+					{%endblock %}
