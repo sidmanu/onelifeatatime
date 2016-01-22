@@ -12,9 +12,8 @@
 			<div class="alert alert-info"><h4>Leader's Dashboard</h4></div>
 			<div class="tabs-x tabs-left tabs-krajee">
 				<ul id="myTab-3" class="nav nav-tabs" role="tablist">
-					<li class="active"><a href="#summary" role="tab" data-toggle="tab" aria-expanded="false"><i class="glyphicon glyphicon-home"></i> Summary</a></li>
-					<li class=""><a href="#trends" role="tab-kv" data-toggle="tab" aria-expanded="true"><i class="glyphicon glyphicon-user"></i>
-						Trends</a></li>
+					<li class="active"><a href="#summary" role="tab-kv" data-toggle="tab" aria-expanded="true"><i class="glyphicon glyphicon-user"></i>
+						Summary</a></li>
 					<li class="dropdown">
 					<a href="#" id="myTabDrop-3" class="dropdown-toggle" data-toggle="dropdown" title="Downloads"><i class="glyphicon glyphicon-list-alt"></i> Reports <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop-1">
@@ -26,17 +25,16 @@
 					</li>
 				</ul>
 				<div id="myTabContent" class="tab-content" style="min-height:550px;border:solid 1px;padding:10px">
-					<div class="tab-pane fade active in" id="summary">
+					<div class="tab-pane fade active in"id="summary">
 						<div class="row">
-							<div class="col-md-6">
-								<p>Total Dialogues: {{total_count}} </p>
+							<div class="col-lg-6">
+								<label> Total Dialogues </label>
+								<div id="total_piechart" style="width: 900px; height: 600px;"></div>
 							</div>
-						</div>
-					</div>
-					<div class="tab-pane fade "id="trends">
-						<div class="row">
-							<div class="col-md-6">
-								Discussion trends here
+
+							<div class="col-lg-6">
+								<label> Monthly progress </label>
+								<div id="total_piechart" style="width: 900px; height: 600px;"></div>
 							</div>
 						</div>
 					</div>
@@ -130,5 +128,25 @@
 
 
 					</div> <!-- container-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
 
+        var data = google.visualization.arrayToDataTable([
+          ['Region', 'Dialogues so far'],
+		  {% for region in regionwise_total_count %}
+			['{{region.name}}', {{region.region_count}}],
+		  {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Total Dialogues per Region'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('total_piechart'));
+        chart.draw(data, options);
+      }
+    </script>
 					{%endblock %}

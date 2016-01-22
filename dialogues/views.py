@@ -53,7 +53,7 @@ def my_dialogues(request):
 		email = request.POST['email']
 		dialogues = q.get_dialogues_list_by_email(email)
 		send_my_dialogues_email(email, dialogues)
-		context['display_message'] = 'If email is valid, you\'ll receive an email shortly'
+		context['display_message'] = 'If entered email-id was valid, you\'ll receive an email shortly!'
 
 	return render(request, 'dialogues/my_dialogues.html', context)
 
@@ -78,6 +78,7 @@ def leaders_dashboard(request):
 	total_count = q.get_total_count()
 	context['total_count'] = total_count
 	context['all_chapter_list'] = q.get_all_chapters() 
+	context['regionwise_total_count'] = q.get_regionwise_total_count()
 	return render(request, 'dialogues/leaders_dashboard.html', context)
 
 

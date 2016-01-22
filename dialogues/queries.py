@@ -6,6 +6,31 @@ def get_total_count():
 def get_all_dialogues():
 	return Dialogue.objects.all()
 
+
+def get_chapter_total_count(chapter_id):
+	chapter = Chapter.objects.get(id=chapter_id)
+	districts = chapter.district_set.all()
+	count = 0
+	for district in districts:
+		count += Dialogue.objects.filter(district=district).count()
+	return count 
+
+
+def get_regionwise_total_count():
+	regions = Region.objects.all()
+	data_list = []
+	for region in regions:
+		ele = {}
+		ele['name'] = region.name
+		region_count = 0
+		for chapter in region.chapter_set.all():
+			region_count += get_chapter_total_count(chapter.id)
+			
+		ele['region_count'] = region_count
+		data_list.append(ele)
+	return data_list
+
+
 def get_chapter_dialogues_in_date_range(start_date, end_date, chapter_id):
 	districts = Chapter.objects.get(id=chapter_id).district_set.all()
 	data_list = []

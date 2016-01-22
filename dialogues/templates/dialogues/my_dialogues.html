@@ -19,6 +19,16 @@
 			<br/>
 		</div>
 	</div>
+
+
+	{% if display_message %}
+	<div class="row">
+		<div class="col-lg-6">
+		<p>{{display_message}} </p>
+		</div>
+
+	</div>
+	{% else %}
 	<div class="row">
 		<div class="col-lg-6">
 			<p> Please enter your email address, used on this website. </p>
@@ -35,6 +45,7 @@
 			</div>
 		</div> <!-- col-->
 	</div> <!-- row -->
+	{% endif %}
 </div> <!-- container -->
 
 </section>
