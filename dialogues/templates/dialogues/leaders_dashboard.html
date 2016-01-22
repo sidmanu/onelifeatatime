@@ -20,19 +20,16 @@
 					<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop-1">
 						<li><a href="#dialogue_list" tabindex="-1" role="tab" data-toggle="tab" title="Total Dialogue List">
 							<i class="glyphicon glyphicon-chevron-right"></i> Total Dialogue List</a></li>
-						<li><a href="#per_chapter_list" tabindex="-1" role="tab" data-toggle="tab" title="Chapter-wise List">
-							<i class="glyphicon glyphicon-chevron-right"></i> Chapter-wise List </a></li>
+						<li><a href="#per_chapter_list" tabindex="-1" role="tab" data-toggle="tab" title="Chapter wise List">
+							<i class="glyphicon glyphicon-chevron-right"></i> Chapter wise List </a></li>
 					</ul>
 					</li>
 				</ul>
-				<div id="myTabContent-3" class="tab-content" style="min-height: 420px;">
+				<div id="myTabContent" class="tab-content" style="min-height:550px;border:solid 1px;padding:10px">
 					<div class="tab-pane fade active in" id="summary">
 						<div class="row">
-							<div class="col-md-6 btn btn-danger">
-								Total Counter: {{total_count}}
-							</div>
 							<div class="col-md-6">
-								Some chart here
+								<p>Total Dialogues: {{total_count}} </p>
 							</div>
 						</div>
 					</div>

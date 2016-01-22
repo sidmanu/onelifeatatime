@@ -25,21 +25,25 @@ def logout_user(request):
 
 def send_my_dialogues_email(email_id, dialogues):
 	recipients = [email_id]
-	subject = 'My Dialogue History - onelifeatatime.in'
+	subject = 'My Dialogue Summary- onelifeatatime.in'
 	sender = 'noreply@onelifeatatime.in'
 	content = """
-	Hi %s, 
-	Here is your dialogue history: """
+	Hi Bodhisattva,
+
+	Here is your dialogue history: 
+	"""
 	
 	
 	if len(dialogues) == 0:
 		content += "You have no recorded dialogues!"
 
+	count = 0
 	for d in dialogues:
-		line = "%s on %s"%(d.friend_name, str(d.dialogue_date))
+		count += 1
+		line = "%d) %s on %s\n"%(count, d.friend_name, str(d.dialogue_date))
 		content += line
 	
-	content += 'Thank You!!!'
+	content += 'Thank You!\nOnelifeatatime.in'
 	send_mail(subject, content, sender, recipients)
 
 
@@ -99,8 +103,6 @@ def ajax_get_regions_in_zone(request, parent_id):
 @csrf_exempt
 def submit_new_dialogue(request):
 	context = {}
-	context['total_count'] = q.get_total_count()
-	context['zone_list'] = q.get_all_zones()
 	if request.method == 'POST':
 		are_you_human_ans = request.POST.get('are_you_human')
 		if are_you_human_ans.strip() != '9':
@@ -118,6 +120,8 @@ def submit_new_dialogue(request):
 			except:
 				context['submit_msg'] ='Invalid data!'
 	
+	context['total_count'] = q.get_total_count()
+	context['zone_list'] = q.get_all_zones()
 	return render(request, 'dialogues/index.html', context)
 
 

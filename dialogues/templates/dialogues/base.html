@@ -49,16 +49,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/"><img src="http://2.bp.blogspot.com/_S9sr3BeEXf0/TJjl4-xQO8I/AAAAAAAAACw/OqObH2KMnmU/s1600/Peace_Partner_globe.png" style="height:30px"></a>
-				<div class="navbar-brand"> Karnataka - Dialogue campaign</div>
+                <a class="navbar-brand" href="/"><img src="https://yt3.ggpht.com/-OkvSdld5vf4/AAAAAAAAAAI/AAAAAAAAAAA/VtnrXIuCil0/s900-c-k-no/photo.jpg" style="height:40px;margin-top:-5px;"></a>
+				<a class="navbar-brand" href="/"> Karnataka - Dialogue campaign</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+					<li> <a href="/"> Home </a> </li>
 					<li> <a href="/dialogues/my_dialogues/"> My dialogues </a> </li>
 					{% if user.is_authenticated %}
 					<li> Welcome {{user}} </li>
+					<li><a href="/dialogues/leaders_dashboard/">Admin</a></li>
 					<li><a href="/logout/">Sign Out</a></li>
 					{% else %}
 					<li><a href="/login/">Admin</a></li>
@@ -72,11 +74,10 @@
 
 
 	<div class="text-center" style="color:red" > {{global_msg}} </div>
-	<div id="main_content" style="min-height:700px;margin-top:50px;padding-left:20px;padding-right:20px">
+	<div id="main_content" >
 	{% block maincontent %}	
 
 	should be overridden
-
 
 	{% endblock %} <!-- endblock for maincontent -->
 	</div> <!-- main-content -->

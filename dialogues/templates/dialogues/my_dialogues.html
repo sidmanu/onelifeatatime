@@ -14,26 +14,23 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
-			<p> Please enter your email address, used on this website. </p>
-			<p> You'll be sent an email with a summary of your dialogues so far. </p>
+			<p></p><h4>My dialogues list</h4>
+			<br/>
+			<br/>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-8" style="padding-left:50px">
+		<div class="col-lg-6">
+			<p> Please enter your email address, used on this website. </p>
+			<p> You'll receive an email with a summary of your dialogues so far. </p>
+		</div>
+		<div class="col-lg-6" >
+			<div class="row">
 			<div id="email_form">
 				<form class="form-horizontal" name="LoginForm" action="/dialogues/my_dialogues/" method="post">
 					{% csrf_token %}
-					<div class="row control-group">
-						<div class="form-group col-xs-6 floating-label-form-group controls">
-							<label>Email</label>
-							<input type="email" class="form-control" placeholder="Email" name="email" id="email" required="" data-validation-required-message="Enter member email.">
-							<p class="help-block text-danger"></p>
-						</div>	
-						<div class="form-group col-xs-6 floating-label-form-group controls">
-							<button type="submit" class="btn btn-success btn-lg" style="margin-top:10px">Send email to me</button>
-						</div>
-					</div> <!-- row control group-->
-
+					<input type="email" class="form-control" placeholder="Email" name="email" id="email" required="" data-validation-required-message="Enter member email.">
+					<button type="submit" class="btn btn-success" style="margin-top:10px">Send email</button>
 				</form>
 			</div>
 		</div> <!-- col-->
