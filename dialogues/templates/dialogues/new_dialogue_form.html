@@ -111,6 +111,11 @@ $(function(){
 	
 	}	
 
+	$('#total_count').click(function(){
+		alert('refreshing counter...');
+		refresh_total_count();
+	});
+
 	function validate_form()  {
 		email_id = $('#member_email').val();
 		member_name = $('#member_name').val();

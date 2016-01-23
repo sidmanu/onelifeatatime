@@ -37,8 +37,11 @@
 						</div>
 					</div>
 					<div class="tab-pane fade" id="dialogue_list">
-						<p></p><h4>Reports >> All Dialogue List</h4>
+						<p></p><h4>Reports >> Dialogue History</h4>
 
+
+						<p> Download in Excel Format, entire history of dialogues. </p>
+						<p></p><h5>Dialogue History for Period</h5>
 						<form method="get" action="/dialogues/download_dialogue_list_date_range/">
 
 							<div class="row control-group">
@@ -53,7 +56,7 @@
 								</div>
 
 								<div class="form-group col-xs-4 controls">
-									<button type="submit" style="margin-top:25px" class="btn btn-success">Download for range</button>
+									<button type="submit" style="margin-top:25px" class="btn btn-success">Download</button>
 								</div>
 
 								<script src="/static/dialogues/js/jquery.js"></script>
@@ -70,8 +73,9 @@
 									</div> <!-- row -->
 
 								</form>
-
-								<a class="btn btn-success btn-lg" href="/dialogues/download_entire_dialogue_list/" download="dialogue_list.xls"> Download Entire List</a>
+ 
+								<p></p><h5>Entire Dialogue History</h5>
+								<a class="btn btn-success btn-lg" href="/dialogues/download_entire_dialogue_list/" download="dialogue_list.xls"> Download Entire History</a>
 
 
 							</div>

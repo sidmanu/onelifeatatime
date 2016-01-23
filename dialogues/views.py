@@ -32,7 +32,8 @@ def send_my_dialogues_email(email_id, dialogues):
 Dear Bodhisattva,
 
 Here is your dialogue history: 
-	"""
+
+"""
 	
 	
 	if len(dialogues) == 0:
@@ -45,7 +46,7 @@ Here is your dialogue history:
 					d.district.name)
 		content += line
 	
-	content += 'Thank You!\nOnelifeatatime.in'
+	content += '\nThank You!\nonelifeatatime.in'
 	send_mail(subject, content, sender, recipients)
 
 
@@ -114,7 +115,7 @@ def ajax_submit_new_dialogue(request):
 	if request.method == 'POST':
 		are_you_human_ans = request.POST.get('are_you_human')
 		if are_you_human_ans.strip() != '9':
-			context['submit_msg'] ='Sorry! You aren\'t human!'
+			context['submit_msg'] ='Please answer the question correctly!'
 		else:
 			try:
 				dist = q.get_district_by_id(request.POST.get('district_select'))
