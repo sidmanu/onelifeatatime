@@ -79,7 +79,7 @@
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group col-xs-6 ">
-                                <button type="submit" class="btn btn-success btn-lg center" style="margin-left:20px; margin-top:8px">Register Dialogue</button>
+                                <button type="submit" id="dialog_submit_button" class="btn btn-success btn-lg center" style="margin-left:20px; margin-top:8px">Register Dialogue</button>
 							</div>
                         </div>
                     </form>
@@ -88,8 +88,51 @@
         </div>
 
 <script src="static/dialogues/js/jquery.js"></script>
+
 <script type="text/javascript" charset="utf-8">
 $(function(){
+
+
+	function refresh_total_count() {
+	$.ajax({
+			   type: "GET",
+			   url: 'dialogues/ajax_get_total_count/',
+			   success: function(data)
+			   {
+				   $("#total_count").text(data);
+			   }
+		 });
+	
+	}	
+
+	function validate_email(userinput)  {
+    	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    	return re.test(userinput);
+	}
+
+
+	$("#dialog_submit_button").click(function(event){
+		email_id = $('#member_email').val();
+		if (!validate_email(email_id)) {
+			alert("Invalid email address");
+		}
+	    var submit_url = "dialogues/ajax_submit_new_dialogue/"; // the script where you handle the form input.
+
+    $.ajax({
+           type: "POST",
+           url: submit_url,
+           data: $("#newDialogueForm").serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               alert(data); // show response from the php script.
+			   refresh_total_count();
+           }
+         });
+		event.preventDefault();
+		$("html, body").animate({ scrollTop: 0 }, "slow");	
+
+	});
+
   $("select#zone_select").change(function(){
 	var selected_val = $(this).val(); 
 	//alert(selected_val);

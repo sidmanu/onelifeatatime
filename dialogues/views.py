@@ -81,7 +81,10 @@ def leaders_dashboard(request):
 	context['regionwise_total_count'] = q.get_regionwise_total_count()
 	return render(request, 'dialogues/leaders_dashboard.html', context)
 
-
+def ajax_get_total_count(request):
+	context = {}
+	context['total_count'] = q.get_total_count()
+	return render(request, 'dialogues/ajax_total_count.html', context)
 
 def ajax_get_districts_in_chapter(request, parent_id):
 	context = {}
@@ -102,7 +105,7 @@ def ajax_get_regions_in_zone(request, parent_id):
 	return render(request, 'dialogues/ajax_select_options.html', context)
 
 @csrf_exempt
-def submit_new_dialogue(request):
+def ajax_submit_new_dialogue(request):
 	context = {}
 	if request.method == 'POST':
 		are_you_human_ans = request.POST.get('are_you_human')
@@ -121,9 +124,7 @@ def submit_new_dialogue(request):
 			except:
 				context['submit_msg'] ='Invalid data!'
 	
-	context['total_count'] = q.get_total_count()
-	context['zone_list'] = q.get_all_zones()
-	return render(request, 'dialogues/index.html', context)
+	return render(request, 'dialogues/ajax_submit_new_dialogue_response.html', context)
 
 
 def export_dist_sheet_dialogue_list_xls(request, dist_wise_list):
