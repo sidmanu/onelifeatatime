@@ -15,6 +15,7 @@ def index(request):
 	context = {}
 	context['total_count'] = q.get_total_count()
 	context['zone_list'] = q.get_all_zones()
+	context['daily_count_list'] = q.get_daily_count_list()
 	return render(request, 'dialogues/index.html', context)
 
 def logout_user(request):
@@ -28,9 +29,9 @@ def send_my_dialogues_email(email_id, dialogues):
 	subject = 'My Dialogue Summary- onelifeatatime.in'
 	sender = 'noreply@onelifeatatime.in'
 	content = """
-	Hi Bodhisattva,
+Dear Bodhisattva,
 
-	Here is your dialogue history: 
+Here is your dialogue history: 
 	"""
 	
 	
@@ -40,7 +41,8 @@ def send_my_dialogues_email(email_id, dialogues):
 	count = 0
 	for d in dialogues:
 		count += 1
-		line = "%d) %s on %s\n"%(count, d.friend_name, str(d.dialogue_date))
+		line = "%d) %s on %s in %s district\n"%(count, d.friend_name, str(d.dialogue_date),
+					d.district.name)
 		content += line
 	
 	content += 'Thank You!\nOnelifeatatime.in'
@@ -78,6 +80,8 @@ def leaders_dashboard(request):
 	total_count = q.get_total_count()
 	context['total_count'] = total_count
 	context['all_chapter_list'] = q.get_all_chapters() 
+	context['daily_count_list'] = q.get_daily_count_list()
+	context['district_count_list'] = q.get_district_wise_count()
 	context['regionwise_total_count'] = q.get_regionwise_total_count()
 	return render(request, 'dialogues/leaders_dashboard.html', context)
 

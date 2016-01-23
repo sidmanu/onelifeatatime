@@ -1,7 +1,18 @@
 from dialogues.models import *
+from django.db.models import Count
+import datetime
 
 def get_total_count():
     return Dialogue.objects.count()
+
+def get_daily_count_list():
+	today = datetime.date.today()
+	fifteen_days_ago = today - datetime.timedelta(days=15)
+	return Dialogue.objects.filter(dialogue_date__gte=fifteen_days_ago).values('dialogue_date').annotate(count=Count('dialogue_date')).order_by('count')
+
+
+def get_district_wise_count():
+	return Dialogue.objects.all().values('district__name').annotate(count=Count('district')).order_by('count')
 
 def get_all_dialogues():
 	return Dialogue.objects.all()

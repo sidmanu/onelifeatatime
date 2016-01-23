@@ -27,14 +27,12 @@
 				<div id="myTabContent" class="tab-content" style="min-height:550px;border:solid 1px;padding:10px">
 					<div class="tab-pane fade active in"id="summary">
 						<div class="row">
-							<div class="col-lg-6">
-								<label> Total Dialogues </label>
-								<div id="total_piechart" style="width: 900px; height: 600px;"></div>
-							</div>
 
 							<div class="col-lg-6">
-								<label> Monthly progress </label>
-								<div id="total_piechart" style="width: 900px; height: 600px;"></div>
+								{% include 'dialogues/table_district_counts.html' %}
+							</div>
+							<div class="col-lg-6">
+								{% include 'dialogues/chart_piechart.html' %}
 							</div>
 						</div>
 					</div>
@@ -128,25 +126,4 @@
 
 
 					</div> <!-- container-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Region', 'Dialogues so far'],
-		  {% for region in regionwise_total_count %}
-			['{{region.name}}', {{region.region_count}}],
-		  {% endfor %}
-        ]);
-
-        var options = {
-          title: 'Total Dialogues per Region'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('total_piechart'));
-        chart.draw(data, options);
-      }
-    </script>
-					{%endblock %}
+				{%endblock %}

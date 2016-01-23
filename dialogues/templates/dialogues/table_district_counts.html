@@ -1,0 +1,23 @@
+<script type="text/javascript" src="/static/dialogues/js/jquery-latest.js"></script> 
+<script type="text/javascript" src="/static/dialogues/js/jquery.tablesorter.js"></script> 
+<table id="myTable" class="tablesorter"> 
+<thead> 
+<tr> 
+    <th>District Name</th> 
+    <th>Total Count</th> 
+</tr> 
+</thead> 
+<tbody> 
+		{% for dist in district_count_list %}
+		<tr>
+			<td> {{dist.district__name}}</td> <td>{{dist.count}}</td>
+		</tr>
+		{% endfor %}
+
+</tbody> 
+</table> 
+
+<script type="text/javascript">
+ $("#myTable").tablesorter() 
+
+</script>

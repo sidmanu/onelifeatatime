@@ -1,5 +1,5 @@
   <div class="container" style="margin-top:5px">
-            <div class="row">
+            <div class="row" id="newDialogueRow">
                 <div class="col-lg-12 text-center">
                     <h4>Record a new Dialogue!</h4>
                     <hr class="star-primary">
@@ -41,7 +41,7 @@
 									</select>
                                 <p class="help-block text-danger"></p>
                             </div>
-						  	<div class="form-group col-xs-6 floating-label-form-group controls">
+						  	<div class="form-group col-xs-6 floating-label-form-group-with-focus controls">
                                 <label>Choose District</label>
 									<select class="form-control" disabled id="district_select" name="district_select" placeholder="District" data-validation-required-message="Choose District">
 										{% for district in chapter_list %}
@@ -74,12 +74,12 @@
 						</div>
                         <div class="row control-group">
    							<div class="form-group col-xs-6 floating-label-form-group-with-focus controls">
-                                <label>Are you human? What is 5 + 4 = ?</label>
-                                <input type="text" class="form-control" placeholder="Verify" name="are_you_human" id="are_you_human" required="" data-validation-required-message="Answer this question:">
+                                <label>What is 5 + 4 = ?</label>
+                                <input type="text" class="form-control" placeholder="Verify" name="are_you_human" autocomplete="off" id="are_you_human" required="" data-validation-required-message="Answer this question:">
                                 <p class="help-block text-danger"></p>
                             </div>
-                            <div class="form-group col-xs-6 ">
-                                <button type="submit" id="dialog_submit_button" class="btn btn-success btn-lg center" style="margin-left:20px; margin-top:8px">Register Dialogue</button>
+                            <div class="form-group col-md-6 ">
+                                <button type="submit" id="dialog_submit_button" class="btn btn-success btn-lg center" style="margin-top:8px;">Report</button>
 							</div>
                         </div>
                     </form>
@@ -91,6 +91,12 @@
 
 <script type="text/javascript" charset="utf-8">
 $(function(){
+
+	function revamp_new_dialogue_form() {
+		$('#more_dialogue_button').css('display','block');	
+		$('#friend_name').val('');
+		$('#are_you_human').val('');
+	}	
 
 
 	function refresh_total_count() {
@@ -105,17 +111,40 @@ $(function(){
 	
 	}	
 
-	function validate_email(userinput)  {
+	function validate_form()  {
+		email_id = $('#member_email').val();
+		member_name = $('#member_name').val();
+		friend_name = $('#friend_name').val();
+		district_id = $('select#district_select').val();
     	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    	return re.test(userinput);
+    	if (!re.test(email_id)) {
+			alert("Please check email id");
+			return false;
+		}
+
+		if (member_name.length < 3) {
+			alert("Please check member's name");
+			return false;
+		}
+
+		if (!$.isNumeric(district_id)) {
+			alert("Please select district");
+			return false;
+		}
+
+		if (friend_name.length < 3) {
+			alert("Please check friend's name");
+			return false;
+		}
+		return true;
 	}
 
 
 	$("#dialog_submit_button").click(function(event){
-		email_id = $('#member_email').val();
-		if (!validate_email(email_id)) {
-			alert("Invalid email address");
-		}
+		if (!validate_form()) {
+			alert("Please check input data");
+			return false;
+		} 
 	    var submit_url = "dialogues/ajax_submit_new_dialogue/"; // the script where you handle the form input.
 
     $.ajax({
@@ -124,8 +153,11 @@ $(function(){
            data: $("#newDialogueForm").serialize(), // serializes the form's elements.
            success: function(data)
            {
-               alert(data); // show response from the php script.
+               //alert(data); // show response from the php script.
+			   $('#dialogue_submit_response_message').html(data);
+			   $('#dialogue_submit_response_message').css('display','block');
 			   refresh_total_count();
+			   revamp_new_dialogue_form();
            }
          });
 		event.preventDefault();
