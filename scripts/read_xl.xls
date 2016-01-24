@@ -1,0 +1,84 @@
+import os
+import xlrd
+from xlrd.sheet import ctype_text   
+
+#open worksheet
+xl_wb = xl_workbook = xlrd.open_workbook('struct.xls')
+sheet_names = xl_workbook.sheet_names()
+xl_sheet = xl_workbook.sheet_by_index(0)
+
+
+import django
+#setup django
+os.environ["DJANGO_SETTINGS_MODULE"] =  "dialoguesforpeace.settings"
+django.setup()
+from dialogues.models import *
+row = xl_sheet.row(0)  
+
+def try_create_zone(zone_name):
+	try:
+		d = Zone.objects.get(name=zone_name)
+		print "found! %d: %s"%(d.id, d.name)
+	except:
+		l = Leader.objects.get(id=5)
+		z = Zone(name=zone_name, leader=l)
+		z.save()
+		print "Zone %s created!"%(zone_name)
+
+def try_create_region(child, parent):
+	try:
+		d = Region.objects.get(name=child)
+		#print "found! %d: %s"%(d.id, d.name)
+	except:
+		l = Leader.objects.get(id=5)
+		p = Zone.objects.get(name=parent)
+		r = Region(name=child, leader=l, parent=p)
+		r.save()
+		print "Region %s created!"%(child)
+
+
+def try_create_chapter(child, parent):
+	try:
+		d = Chapter.objects.get(name=child)
+		#print "found! %d: %s"%(d.id, d.name)
+	except:
+		l = Leader.objects.get(id=5)
+		p = Region.objects.get(name=parent)
+		r = Chapter(name=child, leader=l, parent=p)
+		r.save()
+		print "Chapter %s created!"%(child)
+
+
+
+def try_create_district(child, parent):
+	try:
+		d = District.objects.get(name=child)
+		#print "found! %d: %s"%(d.id, d.name)
+	except:
+		l = Leader.objects.get(id=5)
+		p = Chapter.objects.get(name=parent)
+		r = District(name=child, leader=l, parent=p)
+		r.save()
+		print "District %s created!"%(child)
+
+
+
+for i in range(1,xl_sheet.nrows):
+	row = xl_sheet.row(i)
+	for idx, cell_obj in enumerate(row):
+		cell_type_str = ctype_text.get(cell_obj.ctype, 'unknown type')
+		if idx == 0:
+			zone = cell_obj.value.strip()
+		if idx == 1:
+			region = cell_obj.value.strip()
+		if idx == 2:
+			chapter = cell_obj.value.strip()
+		if idx == 3:
+			district = cell_obj.value.strip()
+
+	#print "%s, %s, %s, %s"%(district, chapter, region, zone)
+
+	try_create_zone(zone)
+	try_create_region(region, zone)
+	try_create_chapter(chapter, region)
+	try_create_district(district, chapter)
