@@ -18,7 +18,7 @@
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
     <link href="/static/dialogues/css/bootstrap.min.css" rel="stylesheet">
 
-<link rel="shortcut icon" href="/static/dialogues/images/sgi.ico">
+<link rel="shortcut icon" href="/static/dialogues/images/logo.ico">
 
     <!-- Custom CSS -->
     <link href="/static/dialogues/css/freelancer.css" rel="stylesheet">
@@ -53,8 +53,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/"><img src="https://yt3.ggpht.com/-OkvSdld5vf4/AAAAAAAAAAI/AAAAAAAAAAA/VtnrXIuCil0/s900-c-k-no/photo.jpg" style="height:40px;margin-top:-5px;"></a>
-				<a class="navbar-brand" href="/">BSG Karnataka - Dialogue campaign</a>
+                <a class="navbar-brand" href="/"><img src="/static/dialogues/images/logo.png" style="height:40px;margin-top:-5px;"></a>
+				<a class="navbar-brand" href="/">Karnataka - Dialogue campaign</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -63,8 +63,7 @@
 					<li> <a href="/"> Home </a> </li>
 					<li> <a href="/dialogues/my_dialogues/"> My dialogues </a> </li>
 					{% if user.is_authenticated %}
-					<li> Welcome {{user}} </li>
-					<li><a href="/dialogues/leaders_dashboard/">Admin</a></li>
+					<li><a href="/dialogues/leaders_dashboard/">Admin login</a></li>
 					<li><a href="/logout/">Sign Out</a></li>
 					{% else %}
 					<li><a href="/login/">Admin</a></li>
@@ -78,7 +77,7 @@
 
 
 	<div class="text-center" style="color:red" > {{global_msg}} </div>
-	<div id="main_content" style="padding-top:80px" >
+	<div id="main_content" style="padding-top:90px" >
 	{% block maincontent %}	
 
 	should be overridden
@@ -91,7 +90,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                       <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRjZJbfjycX9R_czJ-Mwuvg8yq84yW9FIJTqoIPa1OvzYyu_6Jg" style="height:30px"/> Made by BSG Karnataka Youth Division 
+                       <img src="/static/dialogues/images/logo.png" style="height:30px"/> Made by Karnataka Youth Division 
                     </div>
                 </div>
             </div>
