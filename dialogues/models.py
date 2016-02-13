@@ -51,3 +51,27 @@ class Dialogue(models.Model):
 	def __str__(self):
 		return "Diag in %s district: %s spoke to %s "%(self.district.name,
 				self.member_name, self.friend_name)
+
+class HomeVisit(models.Model):
+	visitor_name = models.CharField(max_length=30)
+	visited_name = models.CharField(max_length=30)
+	visitor_email = models.CharField(max_length=30)
+	district = models.ForeignKey(District)
+	visit_date= models.DateField()
+
+	def __str__(self):
+		return "Home Visit in %s district: %s visited %s "%(self.district.name,
+				self.visitor_name, self.visited_name)
+
+class GuestInvite(models.Model):
+	member_name = models.CharField(max_length=30)
+	friend_name = models.CharField(max_length=30)
+	member_email = models.CharField(max_length=30)
+	district = models.ForeignKey(District)
+	invite_date = models.DateField()
+	info = models.TextField(blank=True)
+
+	def __str__(self):
+		return "Guest invitation in %s district: %s invited %s "%(self.district.name,
+				self.member_name, self.friend_name)
+

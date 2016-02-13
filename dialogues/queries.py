@@ -11,12 +11,12 @@ def get_daily_count_list():
 	return Dialogue.objects.filter(dialogue_date__gte=fifteen_days_ago).values('dialogue_date').annotate(count=Count('dialogue_date')).order_by('count')
 
 
+
 def get_district_wise_count():
 	return Dialogue.objects.all().values('district__name').annotate(count=Count('district')).order_by('count')
 
 def get_all_dialogues():
 	return Dialogue.objects.all()
-
 
 def get_chapter_total_count(chapter_id):
 	chapter = Chapter.objects.get(id=chapter_id)
@@ -77,6 +77,48 @@ def get_districts_in_chapter(id):
 def get_district_by_id(id):
 	return District.objects.get(id=id)
 
+def get_home_visits_list_by_email(email):
+	return HomeVisit.objects.filter(visitor_email=email)
+
+def get_guest_invites_list_by_email(email):
+	return GuestInvite.objects.filter(member_email=email)
+
 
 def get_dialogues_list_by_email(email):
 	return Dialogue.objects.filter(member_email=email)
+
+#Home Visits 
+
+def get_guest_invites_count_by_district_id(district_id):
+	dist = District.objects.get(id=district_id)
+	return GuestInvite.objects.filter(district=dist).count()
+
+def get_home_visits_count_by_district_id(district_id):
+	dist = District.objects.get(id=district_id)
+	return HomeVisit.objects.filter(district=dist).count()	
+
+def get_this_month_guest_invites_by_district_id(district_id):
+	dist = District.objects.get(id=district_id)
+	today = datetime.datetime.today()
+	month_start = today - datetime.timedelta(days=(today.day - 1))
+	return GuestInvite.objects.filter(district=dist, invite_date__gte=month_start)
+
+
+def get_this_month_home_visits_by_district_id(district_id):
+	dist = District.objects.get(id=district_id)
+	today = datetime.datetime.today()
+	month_start = today - datetime.timedelta(days=(today.day - 1))
+	return HomeVisit.objects.filter(district=dist, visit_date__gte=month_start)
+
+def get_this_month_guest_invites_count_by_district_id(district_id):
+	dist = District.objects.get(id=district_id)
+	today = datetime.datetime.today()
+	month_start = today - datetime.timedelta(days=(today.day - 1))
+	return GuestInvite.objects.filter(district=dist, invite_date__gte=month_start).count()
+
+def get_this_month_home_visits_count_by_district_id(district_id):
+	dist = District.objects.get(id=district_id)
+	today = datetime.datetime.today()
+	month_start = today - datetime.timedelta(days=(today.day - 1))
+	return HomeVisit.objects.filter(district=dist, visit_date__gte=month_start).count()
+

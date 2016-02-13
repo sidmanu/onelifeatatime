@@ -1,0 +1,147 @@
+
+
+<div class="row">
+	<div class="col-lg-6" style="margin-left:10px;border-right: 1px solid #ccc;">
+		<h4 class="text-center"> Home Visits</h4>
+		<hr class="star-primary">
+		<div class="row">
+			<div class="col-lg-12">
+				Total: <b>{{total_hv_count}} </b> 
+				This month: <b>{{month_hv_count}} </b> 
+				<br/>
+				<br/>
+
+			</div>
+		</div>
+
+
+		<div class="danger alert btn-danger" id="home_visit_submit_response_message" style="display:none"> </div>
+		<form class="background:#0f3d88;" id="new_home_visit_form">
+			{%csrf_token %}
+
+			<div class="row control-group">
+				<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+					<input type="text" class="form-control" placeholder="Visitor Name" name="visitor_name" id="visitor_name" required=""> 
+					<p class="help-block text-danger"></p>
+				</div>
+				<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+					<input type="text" class="form-control" placeholder="Visited's Name" name="visited_name" id="visited_name" required=""> 
+					<p class="help-block text-danger"></p>
+				</div>
+				<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+					<input type="email" class="form-control" placeholder="Email Address" name="visitor_email" id="member_email" required="" data-validation-required-message="Please enter member's email address.">
+					<p class="help-block text-danger"></p>
+				</div>
+				<input type="hidden" name="district_id" value="{{district_id}}">
+				<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+					<button type="submit" id="home_visit_submit_button" class="btn btn-success center" >Report</button>
+				</div>
+			</div>
+		</form>
+		Members who've been visited this month... <br/>
+		{% if month_home_visit_list %}
+		<div style="border: 1px black solid">
+			<ol>
+				{% for hv in month_home_visit_list %}
+				<li> {{hv.visited_name}} on {{hv.visit_date}}</li>
+				{% endfor %}
+			</ol>
+		</div>
+		<br/>
+		<br/>
+		{% endif %}
+
+
+	</div> <!-- end of home visit column-->
+	<div class="col-lg-6" style="margin-left:10px;width:48%" >
+		<h4 class="text-center"> Guest Invitations </h4>
+		<hr class="star-primary">
+		<div class="danger alert btn-danger" id="guest_invite_submit_response_message" style="display:none"> </div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				Total: <b>{{total_gi_count}} </b>  
+				This month: <b> {{month_gi_count}} </b> 
+				<br/>
+				<br/>
+
+			</div>
+
+			<form id="new_guest_invite_form">
+				<div class="row control-group">
+					<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+						<input type="text" class="form-control" placeholder="Member's Name" name="member_name" id="member_name" required="" data-validation-required-message="Enter member name.">
+						<p class="help-block text-danger"></p>
+					</div>
+					<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+						<input type="text" class="form-control" placeholder="Friend's Name" name="friend_name" id="friend_name" required=""> 
+						<p class="help-block text-danger"></p>
+					</div>
+
+
+					<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+						<input type="email" class="form-control" placeholder="Email Address" name="member_email" id="member_email" required="" data-validation-required-message="Please enter member's email address.">
+						<p class="help-block text-danger"></p>
+					</div>
+
+					<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+						<button type="submit" id="guest_invite_submit_button" class="btn btn-success center" >Report</button>
+					</div>
+					<input type="hidden" name="district_id" value="{{district_id}}">
+				</div>
+			</form>
+			Guests invited this month... <br/>
+			{% if month_guest_invite_list %}
+			<div style="border: 1px black solid">
+				<ol>
+					{% for hv in month_guest_invite_list %}
+					<li> {{hv.friend_name}} 
+					invited by {{hv.member_name}} </li>
+					{% endfor %}
+				</ol>
+			</div>
+			<br/>
+			<br/>
+			{% endif %}
+
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	$("#guest_invite_submit_button").click(function(event){
+			var submit_url = "/dialogues/ajax_submit_new_guest_invite/"; // the script where you handle the form input.
+			$.ajax({
+type: "POST",
+url: submit_url,
+data: $("#new_guest_invite_form").serialize(), // serializes the form's elements.
+success: function(data)
+{
+//alert(data); // show response from the php script.
+$('#div_district_summary').html(data);
+}
+});
+			event.preventDefault();
+			$("html, body").animate({ scrollTop: 0 }, "slow");	
+			});
+
+
+$("#home_visit_submit_button").click(function(event){
+		var submit_url = "/dialogues/ajax_submit_new_home_visit/"; // the script where you handle the form input.
+		$.ajax({
+type: "POST",
+url: submit_url,
+data: $("#new_home_visit_form").serialize(), // serializes the form's elements.
+success: function(data)
+{
+//alert(data); // show response from the php script.
+$('#div_district_summary').html(data);
+}
+});
+		event.preventDefault();
+		$("html, body").animate({ scrollTop: 0 }, "slow");	
+		});
+
+	</script>
+
