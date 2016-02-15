@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from dialogues.models import Dialogue
+from dialogues.models import * 
 import dialogues.queries as q
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -10,6 +10,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 import datetime
 from django.core.mail import send_mail
+
+def home_visit_index(request):
+	context = {}
+	context['zone_list'] = q.get_all_zones()
+	return render(request, 'dialogues/home_visit_index.html', context)
 
 def index(request):
 	context = {}
@@ -24,9 +29,9 @@ def logout_user(request):
 	logout(request)
 	return HttpResponseRedirect('/')
 
-def send_my_dialogues_email(email_id, dialogues):
+def send_my_activities_email(email_id, dialogues, hv, gi):
 	recipients = [email_id]
-	subject = 'My Dialogue Summary- onelifeatatime.in'
+	subject = 'My Activities Summary- onelifeatatime.in'
 	sender = 'noreply@onelifeatatime.in'
 	content = """
 Dear Bodhisattva,
@@ -45,20 +50,47 @@ Here is your dialogue history:
 		line = "%d) %s on %s in %s district\n"%(count, d.friend_name, str(d.dialogue_date),
 					d.district.name)
 		content += line
+		
+	if len(hv) == 0:
+		content += "You have no recorded home visits!"
+	else:
+		content += "\n\nHere are the home visits you recorded"
+
+	count = 0
+	for d in hv:
+		count += 1
+		line = "%d) %s on %s in %s district\n"%(count, d.visited_name, str(d.visit_date),
+					d.district.name)
+		content += line
 	
+	
+	if len(gi) == 0:
+		content += "You have no recorded guest invites!"
+	else:
+		content += "\n\nHere are the guest invites you recorded"
+
+	count = 0
+	for d in gi:
+		count += 1
+		line = "%d) %s on %s in %s district\n"%(count, d.friend_name, str(d.invite_date),
+					d.district.name)
+		content += line
+
 	content += '\nThank You!\nonelifeatatime.in'
 	send_mail(subject, content, sender, recipients)
 
 
-def my_dialogues(request):
+def my_activities(request):
 	context = {}
 	if request.POST:
 		email = request.POST['email']
 		dialogues = q.get_dialogues_list_by_email(email)
-		send_my_dialogues_email(email, dialogues)
+		home_visits = q.get_home_visits_list_by_email(email)
+		guest_invites = q.get_guest_invites_list_by_email(email)
+		send_my_activities_email(email, dialogues, home_visits, guest_invites)
 		context['display_message'] = 'If entered email-id was valid, you\'ll receive an email shortly!'
 
-	return render(request, 'dialogues/my_dialogues.html', context)
+	return render(request, 'dialogues/my_activities.html', context)
 
 def login_user(request):
 	context = {}
@@ -86,6 +118,18 @@ def leaders_dashboard(request):
 	context['regionwise_total_count'] = q.get_regionwise_total_count()
 	return render(request, 'dialogues/leaders_dashboard.html', context)
 
+def ajax_hv_get_district_summary(request, district_id):
+	context = {}
+	context['district_id'] = district_id
+	context['total_hv_count'] = q.get_home_visits_count_by_district_id(district_id)
+	context['month_hv_count'] = q.get_this_month_home_visits_count_by_district_id(district_id)
+	context['total_gi_count'] = q.get_guest_invites_count_by_district_id(district_id)
+	context['month_gi_count'] = q.get_this_month_guest_invites_count_by_district_id(district_id)
+	context['month_home_visit_list'] = q.get_this_month_home_visits_by_district_id(district_id)
+	context['month_guest_invite_list'] = q.get_this_month_guest_invites_by_district_id(district_id)
+	return render(request, 'dialogues/ajax_hv_district_summary.html', context)
+
+
 def ajax_get_total_count(request):
 	context = {}
 	context['total_count'] = q.get_total_count()
@@ -108,6 +152,36 @@ def ajax_get_regions_in_zone(request, parent_id):
 	context['options'] = q.get_regions_in_zone(parent_id)
 
 	return render(request, 'dialogues/ajax_select_options.html', context)
+
+@csrf_exempt
+def ajax_submit_new_guest_invite(request):
+	context = {}
+	if request.method == 'POST':
+		dist_id = request.POST.get('district_id')
+		dist = q.get_district_by_id(request.POST.get('district_id'))
+		gi = GuestInvite(member_name=request.POST.get('member_name','dummy'),
+			friend_name=request.POST.get('friend_name','dummy_friend'),
+			member_email=request.POST.get('member_email','abc@xyz.com'),
+			district=dist, invite_date= datetime.date.today(), 
+			info=request.POST.get('info',''))
+		
+		gi.save()
+	return HttpResponseRedirect('/dialogues/ajax_hv_get_district_summary/'+dist_id+'/')
+
+@csrf_exempt
+def ajax_submit_new_home_visit(request):
+	context = {}
+	if request.method == 'POST':
+		dist_id = request.POST.get('district_id')
+		dist = q.get_district_by_id(request.POST.get('district_id'))
+		hv = HomeVisit(visitor_name=request.POST.get('visitor_name','dummy'),
+			visited_name=request.POST.get('visited_name','dummy_friend'),
+			visitor_email=request.POST.get('visitor_email','abc@xyz.com'),
+			district=dist, visit_date= datetime.date.today())
+		
+		hv.save()
+	return HttpResponseRedirect('/dialogues/ajax_hv_get_district_summary/'+dist_id+'/')
+
 
 @csrf_exempt
 def ajax_submit_new_dialogue(request):
@@ -230,7 +304,6 @@ def export_dialogue_list_xls(request, dialogue_list):
 	return response
 
 
-
 def export_entire_dialogue_list_xls(request):
 
 	all_dialogues = q.get_all_dialogues()
@@ -247,7 +320,6 @@ def export_chapter_dialogue_list_date_range_xls(request):
 	dist_wise_list = q.get_chapter_dialogues_in_date_range(start_date, end_date, chapter_id) 
 
 	return export_dist_sheet_dialogue_list_xls(request, dist_wise_list)
-  
 
 def export_dialogue_list_date_range_xls(request):
 	

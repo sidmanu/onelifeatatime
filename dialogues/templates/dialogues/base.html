@@ -59,8 +59,13 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-					<li> <a href="/"> Home </a> </li>
-					<li> <a href="/dialogues/my_dialogues/"> My dialogues </a> </li>
+					<li> <a href="/"> Dialogues </a> </li>
+					<li>
+						<a href="/dialogues/hv/"style="color:white;">
+						Home Visits &amp Guest Invites
+						</a>
+					</li>
+					<li> <a href="/dialogues/my_activities/"> My Activities</a> </li>
 					{% if user.is_authenticated %}
 					<li><a href="/dialogues/leaders_dashboard/">Admin login</a></li>
 					<li><a href="/logout/">Sign Out</a></li>
