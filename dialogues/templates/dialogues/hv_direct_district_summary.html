@@ -1,9 +1,23 @@
+{% extends 'dialogues/base.html'%}
+{% load staticfiles %}
+
+{% block title %} {{dist.name}} Home visits &amp Guest invites {% endblock %}
+
+{% block maincontent %}
+
+
+<div class="container">
+<section>
 
 <div class="row">
-	<div class="col-lg-12 col-sm-12 text-center">
-		<h3>{{dist.name}} district </h3>
-		Direct url for this district - <a class="btn bg-primary" href="/hv/dist/{{dist.id}}/" > http://onelifeatatime.in/hv/dist/{{dist.id}}/ </a>
-</div>
+	<div class="col-lg-6 col-sm-12">
+
+	<a href="/hv/dist/{{dist.id}}/" class="btn btn-lg text-center btn-success" > 
+		District: {{dist.name}} <br/> Direct District link: here </a>
+	</div>
+	<p>
+	For checking other districts, go <a href="/hv/">here </a>
+	</p>
 </div>
 
 <div class="row">
@@ -157,3 +171,8 @@ $('#div_district_summary').html(data);
 
 </script>
 
+
+</section>
+
+</div> <!-- container -->
+{% endblock %}

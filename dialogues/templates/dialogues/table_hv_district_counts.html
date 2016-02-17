@@ -1,7 +1,7 @@
 <script type="text/javascript" src="/static/dialogues/js/jquery-latest.js"></script> 
 <script type="text/javascript" src="/static/dialogues/js/jquery.tablesorter.js"></script> 
 
-<h5> District wise Dialogues Count </h5>
+<h5> District-wise Homevisits count </h5>
 <table id="myTable" class="tablesorter"> 
 <thead> 
 <tr> 
@@ -11,13 +11,13 @@
 </thead> 
 <tbody> 
 
-		{% for dist in district_count_zero_list %}
+		{% for dist in district_hv_count_zero_list %}
 
 		<tr>
 			<td style="color:red"> {{dist.district_name}}</td> <td> 0</td>
 		</tr>
 		{% endfor %}
-		{% for dist in district_count_list %}
+		{% for dist in district_hv_count_list %}
 		<tr>
 			<td> {{dist.district__name}}</td> <td>{{dist.count}}</td>
 		</tr>

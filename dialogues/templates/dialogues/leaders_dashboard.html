@@ -13,13 +13,15 @@
 			<div class="tabs-x tabs-left tabs-krajee">
 				<ul id="myTab-3" class="nav nav-tabs" role="tablist">
 					<li class="active"><a href="#summary" role="tab-kv" data-toggle="tab" aria-expanded="true"><i class="glyphicon glyphicon-user"></i>
-						Summary</a></li>
+						Dialogues Summary</a></li>
+					<li><a href="#hv_summary" role="tab-kv" data-toggle="tab" aria-expanded="true"><i class="glyphicon glyphicon-user"></i>
+						Home visits summary</a></li>
 					<li class="dropdown">
 					<a href="#" id="myTabDrop-3" class="dropdown-toggle" data-toggle="dropdown" title="Downloads"><i class="glyphicon glyphicon-list-alt"></i> Reports <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop-1">
-						<li><a href="#dialogue_list" tabindex="-1" role="tab" data-toggle="tab" title="Total Dialogue List">
+						<li><a href="#dialogue_list" tabindex="-1" role="tab" data-toggle="tab" title="Total Dialogues List">
 							<i class="glyphicon glyphicon-chevron-right"></i> Total Dialogue List</a></li>
-						<li><a href="#per_chapter_list" tabindex="-1" role="tab" data-toggle="tab" title="Chapter wise List">
+						<li><a href="#per_chapter_list" tabindex="-1" role="tab" data-toggle="tab" title="Chapter-wise Dialogue List">
 							<i class="glyphicon glyphicon-chevron-right"></i> Chapter wise List </a></li>
 					</ul>
 					</li>
@@ -36,6 +38,17 @@
 							</div>
 						</div>
 					</div>
+					<div class="tab-pane fade"id="hv_summary">
+						<div class="row">
+							<div class="col-lg-6">
+								{% include 'dialogues/table_hv_district_counts.html' %}
+							</div>
+							<div class="col-lg-6">
+								{% include 'dialogues/chart_hv_piechart.html' %}
+							</div>
+						</div>
+					</div>
+
 					<div class="tab-pane fade" id="dialogue_list">
 						<p></p><h4>Reports >> Dialogue History</h4>
 

@@ -16,6 +16,19 @@ def home_visit_index(request):
 	context['zone_list'] = q.get_all_zones()
 	return render(request, 'dialogues/home_visit_index.html', context)
 
+def dist_direct_home_visit_index(request, district_id):
+	context = {}
+	context['district_id'] = district_id
+	context['dist'] = q.get_district_by_id(district_id)
+	context['total_hv_count'] = q.get_home_visits_count_by_district_id(district_id)
+	context['month_hv_count'] = q.get_this_month_home_visits_count_by_district_id(district_id)
+	context['total_gi_count'] = q.get_guest_invites_count_by_district_id(district_id)
+	context['month_gi_count'] = q.get_this_month_guest_invites_count_by_district_id(district_id)
+	context['month_home_visit_list'] = q.get_this_month_home_visits_by_district_id(district_id)
+	context['month_guest_invite_list'] = q.get_this_month_guest_invites_by_district_id(district_id)
+	return render(request, 'dialogues/hv_direct_district_summary.html', context)
+
+
 def index(request):
 	context = {}
 	context['total_count'] = q.get_total_count()
@@ -114,13 +127,17 @@ def leaders_dashboard(request):
 	context['total_count'] = total_count
 	context['all_chapter_list'] = q.get_all_chapters() 
 	context['daily_count_list'] = q.get_daily_count_list()
-	context['district_count_list'] = q.get_district_wise_count()
+	context['district_count_list'] = q.get_district_wise_dialogues_count()
+	context['district_hv_count_list'] = q.get_district_wise_hv_count()
+	context['district_count_zero_list'] = q.get_district_wise_dialogues_count_zero()
+	context['district_hv_count_zero_list'] = q.get_district_wise_hv_count_zero()
 	context['regionwise_total_count'] = q.get_regionwise_total_count()
 	return render(request, 'dialogues/leaders_dashboard.html', context)
 
 def ajax_hv_get_district_summary(request, district_id):
 	context = {}
 	context['district_id'] = district_id
+	context['dist'] = q.get_district_by_id(district_id)
 	context['total_hv_count'] = q.get_home_visits_count_by_district_id(district_id)
 	context['month_hv_count'] = q.get_this_month_home_visits_count_by_district_id(district_id)
 	context['total_gi_count'] = q.get_guest_invites_count_by_district_id(district_id)

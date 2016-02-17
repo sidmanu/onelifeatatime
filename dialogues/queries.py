@@ -3,16 +3,38 @@ from django.db.models import Count
 import datetime
 
 def get_total_count():
-    return Dialogue.objects.count()
+	return Dialogue.objects.count()
 
 def get_daily_count_list():
 	today = datetime.date.today()
 	fifteen_days_ago = today - datetime.timedelta(days=15)
 	return Dialogue.objects.filter(dialogue_date__gte=fifteen_days_ago).values('dialogue_date').annotate(count=Count('dialogue_date')).order_by('dialogue_date')
 
+def get_district_wise_hv_count_zero():
+	districts = District.objects.all()
+	zero_dists = list()
+	for dist in districts:
+		if dist.homevisit_set.count() == 0:
+			item = {}
+			item['district_name'] = dist.name
+			zero_dists.append(item)
+	return zero_dists
+
+def get_district_wise_hv_count():
+	return HomeVisit.objects.all().values('district__name').annotate(count=Count('district')).order_by('count')
 
 
-def get_district_wise_count():
+def get_district_wise_dialogues_count_zero():
+	districts = District.objects.all()
+	zero_dists = list()
+	for dist in districts:
+		if dist.dialogue_set.count() == 0:
+			item = {}
+			item['district_name'] = dist.name
+			zero_dists.append(item)
+	return zero_dists
+
+def get_district_wise_dialogues_count():
 	return Dialogue.objects.all().values('district__name').annotate(count=Count('district')).order_by('count')
 
 def get_all_dialogues():
