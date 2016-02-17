@@ -1,7 +1,8 @@
 
 
 <div class="row">
-	<div class="col-lg-6" style="margin-left:10px;border-right: 1px solid #ccc;">
+	<div class="col-lg-6 col-sm-12">
+
 		<h4 class="text-center"> Home Visits</h4>
 		<hr class="star-primary">
 		<div class="row">
@@ -51,45 +52,51 @@
 		<br/>
 		{% endif %}
 
-
 	</div> <!-- end of home visit column-->
-	<div class="col-lg-6" style="margin-left:10px;width:48%" >
-		<h4 class="text-center"> Guest Invitations </h4>
-		<hr class="star-primary">
-		<div class="danger alert btn-danger" id="guest_invite_submit_response_message" style="display:none"> </div>
+	<div class="col-lg-6 col-sm-12" >
+		<div id="guest_invites_column" style="padding-right:5px;padding-left:5px">
+			<h4 class="text-center"> Guest Invitations </h4>
+			<hr class="star-primary">
+			<div class="danger alert btn-danger" id="guest_invite_submit_response_message" style="display:none"> </div>
 
-		<div class="row">
-			<div class="col-lg-12">
-				Total: <b>{{total_gi_count}} </b>  
-				This month: <b> {{month_gi_count}} </b> 
-				<br/>
-				<br/>
+			<div class="row">
+				<div class="col-lg-12">
+					Total: <b>{{total_gi_count}} </b>  
+					This month: <b> {{month_gi_count}} </b> 
+					<br/>
+					<br/>
 
+				</div>
 			</div>
 
-			<form id="new_guest_invite_form">
-				<div class="row control-group">
-					<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
-						<input type="text" class="form-control" placeholder="Member's Name" name="member_name" id="member_name" required="" data-validation-required-message="Enter member name.">
-						<p class="help-block text-danger"></p>
-					</div>
-					<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
-						<input type="text" class="form-control" placeholder="Friend's Name" name="friend_name" id="friend_name" required=""> 
-						<p class="help-block text-danger"></p>
-					</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<form id="new_guest_invite_form">
+						<div class="row control-group">
+							<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+								<input type="text" class="form-control" placeholder="Member's Name" name="member_name" id="member_name" required="" data-validation-required-message="Enter member name.">
+								<p class="help-block text-danger"></p>
+							</div>
+							<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+								<input type="text" class="form-control" placeholder="Friend's Name" name="friend_name" id="friend_name" required=""> 
+								<p class="help-block text-danger"></p>
+							</div>
 
 
-					<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
-						<input type="email" class="form-control" placeholder="Email Address" name="member_email" id="member_email" required="" data-validation-required-message="Please enter member's email address.">
-						<p class="help-block text-danger"></p>
-					</div>
+							<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+								<input type="email" class="form-control" placeholder="Email Address" name="member_email" id="member_email" required="" data-validation-required-message="Please enter member's email address.">
+								<p class="help-block text-danger"></p>
+							</div>
 
-					<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
-						<button type="submit" id="guest_invite_submit_button" class="btn btn-success center" >Report</button>
-					</div>
-					<input type="hidden" name="district_id" value="{{district_id}}">
+							<div class="form-group col-lg-6 floating-label-form-group-with-focus controls">
+								<button type="submit" id="guest_invite_submit_button" class="btn btn-success center" >Report</button>
+							</div>
+							<input type="hidden" name="district_id" value="{{district_id}}">
+						</div>
+					</form>
 				</div>
-			</form>
+			</div>
+
 			Guests invited this month... <br/>
 			{% if month_guest_invite_list %}
 			<div style="border: 1px black solid">
@@ -103,16 +110,15 @@
 			<br/>
 			<br/>
 			{% endif %}
+		</div> <!-- guest_ivite_di -->
+	</div> <!-- guest invite column-->
 
-		</div>
-
-	</div>
 </div>
 
 <script type="text/javascript">
-	$("#guest_invite_submit_button").click(function(event){
-			var submit_url = "/dialogues/ajax_submit_new_guest_invite/"; // the script where you handle the form input.
-			$.ajax({
+$("#guest_invite_submit_button").click(function(event){
+		var submit_url = "/dialogues/ajax_submit_new_guest_invite/"; // the script where you handle the form input.
+		$.ajax({
 type: "POST",
 url: submit_url,
 data: $("#new_guest_invite_form").serialize(), // serializes the form's elements.
@@ -122,9 +128,9 @@ success: function(data)
 $('#div_district_summary').html(data);
 }
 });
-			event.preventDefault();
-			$("html, body").animate({ scrollTop: 0 }, "slow");	
-			});
+		event.preventDefault();
+		$("html, body").animate({ scrollTop: 0 }, "slow");	
+		});
 
 
 $("#home_visit_submit_button").click(function(event){
@@ -143,5 +149,5 @@ $('#div_district_summary').html(data);
 		$("html, body").animate({ scrollTop: 0 }, "slow");	
 		});
 
-	</script>
+</script>
 

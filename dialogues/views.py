@@ -54,7 +54,7 @@ Here is your dialogue history:
 	if len(hv) == 0:
 		content += "You have no recorded home visits!"
 	else:
-		content += "\n\nHere are the home visits you recorded"
+		content += "\n\nHere are the home visits you recorded:\n\n"
 
 	count = 0
 	for d in hv:
@@ -67,7 +67,7 @@ Here is your dialogue history:
 	if len(gi) == 0:
 		content += "You have no recorded guest invites!"
 	else:
-		content += "\n\nHere are the guest invites you recorded"
+		content += "\n\nHere are the guest invites you recorded:\n\n"
 
 	count = 0
 	for d in gi:
