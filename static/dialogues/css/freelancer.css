@@ -462,7 +462,8 @@ footer .footer-below {
 
 #main_content {
 	min-height:700px;
-	padding-top:100px;
+	/*padding-top:100px;
+	*/
 }
 
 /* tables */
